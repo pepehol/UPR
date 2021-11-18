@@ -12,7 +12,7 @@ float * softmax(const float * array, const int len)
 
     assert(array && len > 0);
 
-    outputVector = malloc(sizeof(float) * len);
+    outputVector = (float*) malloc(VEC_LEN * sizeof(float));
     if(!outputVector) return NULL;
 
     for (int i = 0; i < len; i++)
@@ -47,6 +47,8 @@ int main()
 {
     int vectorNumber = 0;
     float * vectorInput = (float*) malloc(VEC_LEN * sizeof(float));
+    float * vectorSoftmax = NULL;
+    int result = 0;
 
     scanf("%d ", &vectorNumber);
 
@@ -56,19 +58,19 @@ int main()
         {
             scanf("%f ", &vectorInput[j]);
         }
-        float * vectorSoftmax = softmax(vectorInput, VEC_LEN);
-        int result = argmax(vectorSoftmax, VEC_LEN);
+        vectorSoftmax = softmax(vectorInput, VEC_LEN);
+        result = argmax(vectorSoftmax, VEC_LEN);
 
         printf("%d ", result);
         for (int k = 0; k < VEC_LEN; k++) 
         {
-            printf("%f ", vectorSoftmax[k]);
+            printf("%.4f ", vectorSoftmax[k]);
         }
+        free(vectorSoftmax);
         printf("\n");
     }
 
     free(vectorInput);
-    free(&vectorSoftmax);
 
     return 0;
 }
