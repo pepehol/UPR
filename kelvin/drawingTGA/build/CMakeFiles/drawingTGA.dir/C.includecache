@@ -1,0 +1,12 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/holis/googleDrive/vsb-tuo/1rocnik/zimniSemestr/UPR/src/UPR/kelvin/drawingTGA/main.c
+stdio.h
+-
+
