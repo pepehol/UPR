@@ -1,1 +1,0 @@
-/usr/bin/cc  -fsanitize=address -Wall -Wextra -pedantic   CMakeFiles/drawingTGA.dir/main.c.o  -o drawingTGA 

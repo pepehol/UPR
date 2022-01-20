@@ -1,3 +1,0 @@
-/home/holis/googleDrive/vsb-tuo/1rocnik/zimniSemestr/UPR/src/UPR/kelvin/drawingTGA/build/CMakeFiles/rebuild_cache.dir
-/home/holis/googleDrive/vsb-tuo/1rocnik/zimniSemestr/UPR/src/UPR/kelvin/drawingTGA/build/CMakeFiles/drawingTGA.dir
-/home/holis/googleDrive/vsb-tuo/1rocnik/zimniSemestr/UPR/src/UPR/kelvin/drawingTGA/build/CMakeFiles/edit_cache.dir
