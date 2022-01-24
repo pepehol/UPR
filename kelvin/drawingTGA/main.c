@@ -7,6 +7,7 @@
 
 #include "configure.h"
 #include "utils.h"
+#include "colorPalete.h"
 
 void checkRequiredParam(
     int *argc,
@@ -76,7 +77,7 @@ void checkRequiredParam(
     }
     else
     {
-        if (strstr(*picFile, TGA_PIC) == NULL)
+        if (strstr(*picFile, TGA_EXTENSIONS) == NULL)
         {
             fprintf(stderr, "Problem with -o parameter. Check README file.\n");
             exit(1);
@@ -195,12 +196,18 @@ int main(int argc, char *argv[])
     printf("SIRKA: %d\n", picWidth);
     printf("VYSKA: %d\n", picHeight);
 
-    printf("TEST: %s\n", objectsFromFile[0]);
+    printf("POCET OBRAZCU: %d\n", numParams);
+    for(int i = 0; i < numParams; i++)
+        printf("%d - %s\n", i, objectsFromFile[i]);
+
 
     if (objectsFromFile != NULL)
     {
         for (int i = 0; i < numParams; i++)
-        free(objectsFromFile[i]);
+        {
+            free(objectsFromFile[i]);
+        }
+        free(objectsFromFile);
     }
 
     return 0;

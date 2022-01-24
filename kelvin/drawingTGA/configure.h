@@ -6,7 +6,7 @@
 #define PARAM_WIDTH_PIC "-w"
 #define PARAM_HEIGHT_PIC "-h"
 
-#define TGA_PIC ".tga"
+#define TGA_EXTENSIONS ".tga"
 
 #define PARAM_RECTANGLE "-r"
 #define PARAM_CIRCLE "-c"
