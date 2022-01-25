@@ -8,6 +8,7 @@
 #include "configure.h"
 #include "utils.h"
 #include "colorPalete.h"
+#include "tga.h"
 
 void checkRequiredParam(
     int *argc,
@@ -20,22 +21,20 @@ void checkRequiredParam(
     /*
     If it is less than or equal to nine parameters, exit the program.
     Required pameters:
-    0         1  2           3  4        5  6         7        8
-    ./program -o nameOutFile -w widthPix -h heightPix -f/r,c,t char * /int[]
+    0        1 2            3 4         5 6          7       8
+    program -o nameOutFile -w widthPix -h heightPix -f/r,c,t char * /int[]
     Mandatory parameters and at least one parameter for the drawing object or
     configuration file.
      */
-
     if (*argc < REQUIRED_NUM_PARAMS)
-    {
-        fprintf(stderr, "Error input parameter. Check README file.\n");
-        exit(1);
-    }
+        callStderrExit(ERROR_INPUT, 1);
 
+    // Duplicate parameter.
     int countFpic = 0;
     int countW = 0;
     int countH = 0;
     int countFconf = 0;
+    int countP = 0;
 
     for (int i = 0; i < REQUIRED_NUM_PARAMS; i++)
     {
@@ -59,42 +58,39 @@ void checkRequiredParam(
             *fileConf = argv[i + 1];
             countFconf++;
         }
+        else if (
+            ((strcmp(argv[i], PARAM_RECTANGLE) == 0) ||
+            (strcmp(argv[i], PARAM_TRIANGLE) == 0) ||
+            (strcmp(argv[i], PARAM_CIRCLE) == 0))
+            &&
+            (i >= 7)
+        )
+            countP++;
     }
+
+    // The main parameter must be one at a time.
+    if (!((countFpic == 1) && (countW == 1) && (countH == 1)))
+        callStderrExit(ERROR_MISS_MAIN_PAR, 1);
 
     // Duplicate parameters.
     if ((countFpic > 1) || (countW > 1) || (countH > 1) || (countFconf > 1))
-    {
-        fprintf(stderr, "Problem with duplicate parameters."
-                        "Check README file.\n");
-        exit(1);
-    }
+        callStderrExit(ERROR_DUPLICATE, 1);
 
-    // Check the correct type of tga output file name.
+    if ((countFpic + countW + countH + countFconf + countP) < 4)
+        callStderrExit(ERROR_INPUT, 1);
+
+    // Check the values of the main inputs. -o, -h, -w.
     if (*picFile == NULL)
-    {
-        fprintf(stderr, "Problem with -o parameter. Check README file.\n");
-        exit(1);
-    }
+        callStderrExit(ERROR_PARAM_O, 1);
     else
-    {
         if (strstr(*picFile, TGA_EXTENSIONS) == NULL)
-        {
-            fprintf(stderr, "Problem with -o parameter. Check README file.\n");
-            exit(1);
-        }
-    }
+            callStderrExit(ERROR_PARAM_O, 1);
 
     if (*width == 0)
-    {
-        fprintf(stderr, "Problem with -w parameter. Check README file.\n");
-        exit(1);
-    }
+        callStderrExit(ERROR_PARAM_W, 1);
 
     if (*height == 0)
-    {
-        fprintf(stderr, "Problem with -h parameter. Check README file.\n");
-        exit(1);
-    }
+        callStderrExit(ERROR_PARAM_H, 1);
 }
 
 char **readParamFromFile(char * fileName, int *param)
@@ -124,7 +120,7 @@ char **readParamFromFile(char * fileName, int *param)
     int numParams = 0;
     for (int i = 0; i < fSize; i++)
     {
-        if (pString[i] == ASCI_NEW_LINE)
+        if ((pString[i] == ASCI_NEW_LINE) || (pString[i] == ASCI_SPACE))
             numParams++;
     }
 
@@ -138,7 +134,7 @@ char **readParamFromFile(char * fileName, int *param)
     numParams = 0;
     for (int i = 0; i < fSize; i++)
     {
-        if (pString[i] == ASCI_NEW_LINE)
+        if (pString[i] == ASCI_NEW_LINE || pString[i] == ASCI_SPACE)
         {
             pArray[numParams] = (char *)malloc(((i - startParams) + 1) * sizeof(char));
             ALLOCTEST(pArray[numParams]);
@@ -182,12 +178,17 @@ int main(int argc, char *argv[])
                        &picHeight);
 
     // Check if it is a configuration from a file. (parameter -f).
-    char **objectsFromFile;
+    char **pObjectsArr;
     int numParams = 0;
 
     if (fileConf != NULL)
     {
-        objectsFromFile = readParamFromFile(fileConf, &numParams);
+        pObjectsArr = readParamFromFile(fileConf, &numParams);
+    }
+    else
+    {
+        numParams = argc - CONF_PARAMS;
+        pObjectsArr = &argv[CONF_PARAMS];
     }
 
     printf("VYSTUPNI NAZEV: %s\n", picFileOut);
@@ -196,19 +197,52 @@ int main(int argc, char *argv[])
     printf("SIRKA: %d\n", picWidth);
     printf("VYSKA: %d\n", picHeight);
 
-    printf("POCET OBRAZCU: %d\n", numParams);
     for(int i = 0; i < numParams; i++)
-        printf("%d - %s\n", i, objectsFromFile[i]);
+    {
+        printf("%s\n", pObjectsArr[i]);
+
+        if (strcmp(pObjectsArr[i], PARAM_RECTANGLE) == 0)
+        {
+
+            int *pRec;
+            // x  y  w  h  r  g  b  a
+            //[0, 1, 2, 3, 4, 5, 6, 7]
+            pRec = transArrCharToInt(pObjectsArr[i + 1], ',', PARAM_RECTANGLE_NUM);
+
+            // Check parameter.
+            if (!((*(pRec + 0) >= 0) && (*(pRec + 0) < picWidth)))
+            {
+
+            }
+
+            free(pRec);
+        }
+        else if (strcmp(pObjectsArr[i], PARAM_TRIANGLE) == 0)
+        {
+        }
+        else if (strcmp(pObjectsArr[i], PARAM_CIRCLE) == 0)
+        {
+        }
+    }
+
+    TGAImage *tga = TGAnew(picWidth, picHeight, &RGBA_WHITE);
+
+    TGAwriteFile(tga, picFileOut);
 
 
-    if (objectsFromFile != NULL)
+
+
+    // Time to clear.
+    if (fileConf != NULL)
     {
         for (int i = 0; i < numParams; i++)
         {
-            free(objectsFromFile[i]);
+            free(pObjectsArr[i]);
         }
-        free(objectsFromFile);
+        free(pObjectsArr);
     }
+
+    TGAfree(tga);
 
     return 0;
 }

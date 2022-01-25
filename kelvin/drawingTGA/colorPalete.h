@@ -11,4 +11,12 @@ typedef struct
     byte alpha;
 } RGBA;
 
+extern RGBA RGBA_WHITE;
+extern RGBA RGBA_BLACK;
+extern RGBA RGBA_RED;
+extern RGBA RGBA_GREEN;
+extern RGBA RGBA_BLUE;
+extern RGBA RGBA_LIGHT_BLUE;
+extern RGBA RGBA_ORANGE;
+
 #endif
