@@ -199,7 +199,7 @@ int main(int argc, char *argv[])
 
     for(int i = 0; i < numParams; i++)
     {
-        printf("%s\n", pObjectsArr[i]);
+        // printf("%s\n", pObjectsArr[i]);
 
         if (strcmp(pObjectsArr[i], PARAM_RECTANGLE) == 0)
         {
@@ -208,12 +208,10 @@ int main(int argc, char *argv[])
             // x  y  w  h  r  g  b  a
             //[0, 1, 2, 3, 4, 5, 6, 7]
             pRec = transArrCharToInt(pObjectsArr[i + 1], ',', PARAM_RECTANGLE_NUM);
+            if (pRec == NULL)
+                callStderrExit(ERROR_WRONG_CONF_REC, 1);
 
             // Check parameter.
-            if (!((*(pRec + 0) >= 0) && (*(pRec + 0) < picWidth)))
-            {
-
-            }
 
             free(pRec);
         }

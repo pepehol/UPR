@@ -17,8 +17,11 @@
 #define PARAM_TRIANGLE "-t"
 #define PARAM_TRIANGLE_NUM 7
 
+#define ASCI_NUL 0
 #define ASCI_NEW_LINE 10
 #define ASCI_SPACE 32
+#define ASCI_ZERO 48
+#define ASCI_NINE 57
 
 #define REQUIRED_NUM_PARAMS 9
 #define CONF_PARAMS 7
@@ -29,5 +32,7 @@
 #define ERROR_PARAM_O "Problem with -o parameter. Check README file.\n"
 #define ERROR_PARAM_W "Problem with -w parameter. Check README file.\n"
 #define ERROR_PARAM_H "Problem with -h parameter. Check README file.\n"
+#define ERROR_WRONG_CONF_REC "Wrong assignment for the triangle Check README file.\n"
+
 
 #endif
