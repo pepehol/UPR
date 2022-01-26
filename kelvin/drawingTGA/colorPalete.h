@@ -22,6 +22,6 @@ extern RGBA RGBA_BLUE;
 extern RGBA RGBA_LIGHT_BLUE;
 extern RGBA RGBA_ORANGE;
 
-void checkRGBA(RGBA *rgba);
+int checkRGBA(int *arr, int num);
 
 #endif

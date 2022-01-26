@@ -33,17 +33,31 @@ void TGAsetPixel(TGAImage *self, const int x, const int y, RGBA *color)
     int pixel = 0;
     pixel = TGA1d(x, y, TGAwidth(self));
 
-    self->rgba[pixel].blue = color->blue;
-    self->rgba[pixel].green = color->green;
-    self->rgba[pixel].red = color->red;
-    self->rgba[pixel].alpha = color->alpha;
+    // int pixel = 0;
+    // pixel = TGA1d(x, y, TGAwidth(self));
+
+    float alpha = (float) color->alpha / (float) COLOR_DEPTH;
+
+    float rf = alpha * (float) color->red + (1.0 - alpha) * self->rgba[pixel].red;
+    float gf = alpha * (float) color->green + (1.0 - alpha) * self->rgba[pixel].green;
+    float bf = alpha * (float) color->blue + (1.0 - alpha) * self->rgba[pixel].blue;
+
+    self->rgba[pixel].blue = (int) bf;
+    self->rgba[pixel].green = (int) gf;
+    self->rgba[pixel].red = (int) rf;
+    self->rgba[pixel].alpha = color ->alpha;
+
+    // self->rgba[pixel].blue = color->blue;
+    // self->rgba[pixel].green = color->green;
+    // self->rgba[pixel].red = color->red;
+    // self->rgba[pixel].alpha = color->alpha;
 }
 
-void TGAdrawRect(TGAImage *tga, RGBA *rgba, Rectangle rect)
+void TGAdrawRect(TGAImage *tga, RGBA *rgba, Rectangle *rect)
 {
-    for (int y = rect.y1; y < rect.y2; y++)
+    for (int y = rect->y1; y < rect->y2; y++)
     {
-        for (int x = rect.x1; x < rect.x2; x++)
+        for (int x = rect->x1; x < rect->x2; x++)
         {
             TGAsetPixel(tga, x, y, rgba);
         }
@@ -68,7 +82,7 @@ TGAImage *TGAnew(const int width, const int height, RGBA *rgba)
 
     Rectangle rect = {.x1 = 0, .y1 = 0, .x2 = width, .y2 = height};
 
-    TGAdrawRect(tga, rgba, rect);
+    TGAdrawRect(tga, rgba, &rect);
 
     return tga;
 }
@@ -112,3 +126,17 @@ void TGAcopy(TGAImage *source, TGAImage *destination, Rectangle rect)
         }
     }
 }
+
+    // int pixel = 0;
+    // pixel = TGA1d(x, y, TGAwidth(self));
+
+    // float alpha = (float) color->alpha / (float) COLOR_DEPTH;
+
+    // float rf = alpha * (float) color->red + (1.0 - alpha) * self->rgba[pixel].red;
+    // float gf = alpha * (float) color->green + (1.0 - alpha) * self->rgba[pixel].green;
+    // float bf = alpha * (float) color->blue + (1.0 - alpha) * self->rgba[pixel].blue;
+
+    // self->rgba[pixel].blue = (int) bf;
+    // self->rgba[pixel].green = (int) gf;
+    // self->rgba[pixel].red = (int) rf;
+    // self->rgba[pixel].alpha = (int) alpha;

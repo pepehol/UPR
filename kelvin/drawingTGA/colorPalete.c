@@ -9,13 +9,11 @@ RGBA RGBA_LIGHT_BLUE = {.red = 39, .green = 176, .blue = 245, .alpha = 153};
 RGBA RGBA_ORANGE = { .red = 255, .green = 165, .blue = 0, .alpha = 255};
 
 
-void checkRGBA(RGBA *rgba)
+int checkRGBA(int *arr, int num)
 {
-    if (
-        ((rgba->red < 0) || (rgba->red > COLOR_DEPTH)) ||
-        ((rgba->green < 0) || (rgba->green > COLOR_DEPTH)) ||
-        ((rgba->blue < 0) || (rgba->blue > COLOR_DEPTH)) ||
-        ((rgba->alpha < 0) || (rgba->alpha > COLOR_DEPTH))
-    )
-        callStderrExit(ERROR_RGBA, 1);
+    for (int i = num - 4; i < num; i++)
+        if ((arr[i] < 0) || (arr[i] > COLOR_DEPTH))
+            return -1;
+
+    return 0;
 }

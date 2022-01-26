@@ -12,6 +12,7 @@
 void utils_out_of_memory(const char *filename, const int lineno);
 int * transArrCharToInt(char *s, char d, const int number);
 void callStderrExit(char *s, int t);
+void printIntArray(int *arr, int num);
 
 
 #endif

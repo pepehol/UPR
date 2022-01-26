@@ -61,11 +61,9 @@ void checkRequiredParam(
         }
         else if (
             ((strcmp(argv[i], PARAM_RECTANGLE) == 0) ||
-            (strcmp(argv[i], PARAM_TRIANGLE) == 0) ||
-            (strcmp(argv[i], PARAM_CIRCLE) == 0))
-            &&
-            (i >= 7)
-        )
+             (strcmp(argv[i], PARAM_TRIANGLE) == 0) ||
+             (strcmp(argv[i], PARAM_CIRCLE) == 0)) &&
+            (i >= 7))
             countP++;
     }
 
@@ -83,9 +81,8 @@ void checkRequiredParam(
     // Check the values of the main inputs. -o, -h, -w.
     if (*picFile == NULL)
         callStderrExit(ERROR_PARAM_O, 1);
-    else
-        if (strstr(*picFile, TGA_EXTENSIONS) == NULL)
-            callStderrExit(ERROR_PARAM_O, 1);
+    else if (strstr(*picFile, TGA_EXTENSIONS) == NULL)
+        callStderrExit(ERROR_PARAM_O, 1);
 
     if (*width == 0)
         callStderrExit(ERROR_PARAM_W, 1);
@@ -94,7 +91,7 @@ void checkRequiredParam(
         callStderrExit(ERROR_PARAM_H, 1);
 }
 
-char **readParamFromFile(char * fileName, int *param)
+char **readParamFromFile(char *fileName, int *param)
 {
     FILE *f = fopen(fileName, "rt");
 
@@ -171,8 +168,8 @@ int main(int argc, char *argv[])
     int picWidth = 0;
     int picHeight = 0;
 
-    checkRequiredParam(&argc, argv, &picFileOut, &fileConf, &picWidth, 
-        &picHeight);
+    checkRequiredParam(&argc, argv, &picFileOut, &fileConf, &picWidth,
+                       &picHeight);
 
     // Check if it is a configuration from a file. (parameter -f).
     char **pObjectsArr;
@@ -194,7 +191,9 @@ int main(int argc, char *argv[])
     printf("SIRKA: %d\n", picWidth);
     printf("VYSKA: %d\n", picHeight);
 
-    for(int i = 0; i < numParams; i++)
+    TGAImage *tga = TGAnew(picWidth, picHeight, &RGBA_BLACK);
+
+    for (int i = 0; i < numParams; i++)
     {
         // printf("%s\n", pObjectsArr[i]);
 
@@ -207,11 +206,6 @@ int main(int argc, char *argv[])
             if (pRec == NULL)
                 callStderrExit(ERROR_WRONG_CONF_REC, 1);
 
-            printf("Pole: ");
-            for (int i = 0; i < PARAM_RECTANGLE_NUM; i++)
-                printf("%d ", pRec[i]);
-            printf("\n");
-
             Rectangle rect = {
                 .x1 = pRec[0],
                 .y1 = pRec[1],
@@ -220,12 +214,18 @@ int main(int argc, char *argv[])
             };
             checkRectangle(&rect, picWidth, picHeight);
 
-            RGBA rectRGBA = {
-                .red = pRec[4],
-                .green = pRec[5],
-                .blue = pRec[6],
-                .alpha = pRec[7],
-            };
+            RGBA rectRGBA;
+            if (checkRGBA(pRec, PARAM_RECTANGLE_NUM) == 0)
+            {
+                rectRGBA.red = pRec[4];
+                rectRGBA.green = pRec[5];
+                rectRGBA.blue = pRec[6];
+                rectRGBA.alpha = pRec[7];
+            }
+            else
+                callStderrExit(ERROR_RGBA, 1);
+
+            TGAdrawRect(tga, &rectRGBA, &rect);
 
             free(pRec);
         }
@@ -237,12 +237,7 @@ int main(int argc, char *argv[])
         }
     }
 
-    TGAImage *tga = TGAnew(picWidth, picHeight, &RGBA_WHITE);
-
     TGAwriteFile(tga, picFileOut);
-
-
-
 
     // Time to clear.
     if (fileConf != NULL)

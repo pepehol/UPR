@@ -39,7 +39,7 @@ int TGAchannels(const TGAImage *self);
 int TGA1d(const int x, const int y, const int cols);
 void TGAsetPixel(TGAImage *self, const int x, const int y, RGBA *rgba);
 
-void TGAdrawRect(TGAImage *tga, RGBA *rgba, Rectangle rect);
+void TGAdrawRect(TGAImage *tga, RGBA *rgba, Rectangle *rect);
 
 TGAImage *TGAnew(const int width, const int height, RGBA *rgba);
 void TGAfree(TGAImage *self);

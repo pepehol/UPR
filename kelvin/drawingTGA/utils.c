@@ -19,8 +19,8 @@ int * transArrCharToInt(char *s, char d, const int number)
     for (int i = 0; i < lenChar; i++)
     {
         // Check if it is a number.
-        if ((!((ASCI_ZERO <= s[i]) && (ASCI_NINE >= s[i])) && !(s[i] == d) && !(s[i] == ASCI_MINUS)) ||
-            ((s[i] == d) && (i == 0))
+        if ((!((ASCI_ZERO <= s[i]) && (ASCI_NINE >= s[i])) && !(s[i] == d) && 
+            !(s[i] == ASCI_MINUS)) || ((s[i] == d) && (i == 0))
         )
         {
             free(arr);
@@ -86,4 +86,12 @@ void callStderrExit(char *s, int t)
     default:
         exit(1);
     }
+}
+
+void printIntArray(int *arr, int num)
+{
+    printf("Pole: ");
+        for (int i = 0; i < num; i++)
+            printf("%d ", arr[i]);
+        printf("\n");
 }

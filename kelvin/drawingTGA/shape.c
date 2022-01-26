@@ -6,11 +6,11 @@ void checkRectangle(Rectangle *rec, int width, int height)
     if (((rec->x1 < 0) || (rec->y1 < 0)) || 
         ((rec->x1 >= width) || (rec->y1 >= height))
     )
-        callStderrExit(ERROR_OFF_COORDINATE, 1);
+        callStderrExit(ERROR_OFF_COORD_REC, 1);
 
     // Check width and height.
     if ((rec->x2 <= rec->x1) || (rec->y2 <= rec->y1) ||
         (rec->x2 > width) || (rec->y2 > height)
     )
-        callStderrExit(ERROR_OFF_COORDINATE, 1);
+        callStderrExit(ERROR_OFF_COORD_REC, 1);
 }
