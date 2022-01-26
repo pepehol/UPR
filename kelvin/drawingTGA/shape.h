@@ -1,7 +1,9 @@
 #ifndef _SHAPE_H_
 #define _SHAPE_H_
 
-#include "colorPalete.h"
+#include <stdio.h>
+#include "configure.h"
+#include "utils.h"
 
 typedef struct
 {
@@ -9,7 +11,6 @@ typedef struct
     int x2;
     int y1;
     int y2;
-    RGBA rgba;
 } Rectangle;
 
 typedef struct
@@ -17,7 +18,6 @@ typedef struct
     int x;
     int y;
     int radius;
-    RGBA rgba;
 } Circle;
 
 typedef struct
@@ -25,7 +25,9 @@ typedef struct
     int x;
     int y;
     int lenSide;
-    RGBA rgba;
 } Triangle;
+
+void checkRectangle(Rectangle *rec, int width, int height);
+
 
 #endif

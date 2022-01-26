@@ -8,6 +8,7 @@
 #include "configure.h"
 #include "utils.h"
 #include "colorPalete.h"
+#include "shape.h"
 #include "tga.h"
 
 void checkRequiredParam(
@@ -170,12 +171,8 @@ int main(int argc, char *argv[])
     int picWidth = 0;
     int picHeight = 0;
 
-    checkRequiredParam(&argc,
-                       argv,
-                       &picFileOut,
-                       &fileConf,
-                       &picWidth,
-                       &picHeight);
+    checkRequiredParam(&argc, argv, &picFileOut, &fileConf, &picWidth, 
+        &picHeight);
 
     // Check if it is a configuration from a file. (parameter -f).
     char **pObjectsArr;
@@ -203,7 +200,6 @@ int main(int argc, char *argv[])
 
         if (strcmp(pObjectsArr[i], PARAM_RECTANGLE) == 0)
         {
-
             int *pRec;
             // x  y  w  h  r  g  b  a
             //[0, 1, 2, 3, 4, 5, 6, 7]
@@ -211,7 +207,25 @@ int main(int argc, char *argv[])
             if (pRec == NULL)
                 callStderrExit(ERROR_WRONG_CONF_REC, 1);
 
-            // Check parameter.
+            printf("Pole: ");
+            for (int i = 0; i < PARAM_RECTANGLE_NUM; i++)
+                printf("%d ", pRec[i]);
+            printf("\n");
+
+            Rectangle rect = {
+                .x1 = pRec[0],
+                .y1 = pRec[1],
+                .x2 = pRec[0] + pRec[2],
+                .y2 = pRec[1] + pRec[3],
+            };
+            checkRectangle(&rect, picWidth, picHeight);
+
+            RGBA rectRGBA = {
+                .red = pRec[4],
+                .green = pRec[5],
+                .blue = pRec[6],
+                .alpha = pRec[7],
+            };
 
             free(pRec);
         }

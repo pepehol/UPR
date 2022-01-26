@@ -18,14 +18,11 @@ int * transArrCharToInt(char *s, char d, const int number)
 
     for (int i = 0; i < lenChar; i++)
     {
-        printf("ZNAK: %d\n", s[i]);
-
         // Check if it is a number.
-        if ((!((ASCI_ZERO <= s[i]) && (ASCI_NINE >= s[i])) && !(s[i] == d)) ||
+        if ((!((ASCI_ZERO <= s[i]) && (ASCI_NINE >= s[i])) && !(s[i] == d) && !(s[i] == ASCI_MINUS)) ||
             ((s[i] == d) && (i == 0))
         )
         {
-            printf("SPATNY ZNAK: %d\n", startArr);
             free(arr);
             return NULL;
         }
@@ -43,10 +40,7 @@ int * transArrCharToInt(char *s, char d, const int number)
 
             // String have multiples numbers. Return an array of max length.
             if (startArr >= number)
-            {
-                printf("PREKROCENA DELKA POLE\n");
                 break;
-            }
 
             arr[startArr] = atoi(loader);
 
@@ -72,15 +66,6 @@ int * transArrCharToInt(char *s, char d, const int number)
     }
 
     arr[startArr] = atoi(loader);
-
-    printf("POCET INTU: %d\n", startArr);
-
-    printf("VYTVORENE POLE: ");
-    for (int i = 0; i < number; i++)
-    {
-        printf("%d ", arr[i]);
-    }
-    printf("\n");
 
     if (startArr < (number - 1))
     {

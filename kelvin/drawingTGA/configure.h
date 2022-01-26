@@ -22,6 +22,7 @@
 #define ASCI_SPACE 32
 #define ASCI_ZERO 48
 #define ASCI_NINE 57
+#define ASCI_MINUS 45
 
 #define REQUIRED_NUM_PARAMS 9
 #define CONF_PARAMS 7
@@ -33,6 +34,10 @@
 #define ERROR_PARAM_W "Problem with -w parameter. Check README file.\n"
 #define ERROR_PARAM_H "Problem with -h parameter. Check README file.\n"
 #define ERROR_WRONG_CONF_REC "Wrong assignment for the triangle Check README file.\n"
+#define ERROR_OFF_COORDINATE "Off-coordinate.\n"
+#define ERROR_RGBA "Bad colour values\n"
+
+#define COLOR_DEPTH 255
 
 
 #endif
