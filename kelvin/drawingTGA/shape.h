@@ -27,7 +27,9 @@ typedef struct
     int lenSide;
 } Triangle;
 
+int checkStartPoint(int x, int y, int width, int height);
 void checkRectangle(Rectangle *rec, int width, int height);
+void checkCircle(Circle *cir, int width, int height);
 
 
 #endif

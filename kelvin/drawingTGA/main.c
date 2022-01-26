@@ -195,14 +195,16 @@ int main(int argc, char *argv[])
 
     for (int i = 0; i < numParams; i++)
     {
-        // printf("%s\n", pObjectsArr[i]);
+        printf("%s\n", pObjectsArr[i]);
 
         if (strcmp(pObjectsArr[i], PARAM_RECTANGLE) == 0)
         {
-            int *pRec;
+            int *pRec = NULL;
+
             // x  y  w  h  r  g  b  a
             //[0, 1, 2, 3, 4, 5, 6, 7]
             pRec = transArrCharToInt(pObjectsArr[i + 1], ',', PARAM_RECTANGLE_NUM);
+
             if (pRec == NULL)
                 callStderrExit(ERROR_WRONG_CONF_REC, 1);
 
@@ -212,9 +214,11 @@ int main(int argc, char *argv[])
                 .x2 = pRec[0] + pRec[2],
                 .y2 = pRec[1] + pRec[3],
             };
+
             checkRectangle(&rect, picWidth, picHeight);
 
             RGBA rectRGBA;
+
             if (checkRGBA(pRec, PARAM_RECTANGLE_NUM) == 0)
             {
                 rectRGBA.red = pRec[4];
@@ -228,11 +232,43 @@ int main(int argc, char *argv[])
             TGAdrawRect(tga, &rectRGBA, &rect);
 
             free(pRec);
-        }
-        else if (strcmp(pObjectsArr[i], PARAM_TRIANGLE) == 0)
-        {
+            pRec = NULL;
         }
         else if (strcmp(pObjectsArr[i], PARAM_CIRCLE) == 0)
+        {
+            int *pTria = NULL;
+
+            pTria = transArrCharToInt(pObjectsArr[i + 1], ',', PARAM_CIRCLE_NUM);
+
+            if (pTria == NULL)
+                callStderrExit(ERROR_WRONG_CONF_CIR, 1);
+
+            Circle circle = {
+                .x = pTria[0],
+                .y = pTria[1],
+                .radius = pTria[2],
+            };
+
+            checkCircle(&circle, picWidth, picHeight);
+
+            RGBA circleRGBA;
+
+            if (checkRGBA(pTria, PARAM_CIRCLE_NUM) == 0)
+            {
+                circleRGBA.red = pTria[3];
+                circleRGBA.green = pTria[4];
+                circleRGBA.blue = pTria[5];
+                circleRGBA.alpha = pTria[6];
+            }
+            else
+                callStderrExit(ERROR_RGBA, 1);
+
+            TGAdrawCircle(tga, &circleRGBA, &circle);
+
+            free(pTria);
+            pTria = NULL;
+        }
+        else if (strcmp(pObjectsArr[i], PARAM_TRIANGLE) == 0)
         {
         }
     }

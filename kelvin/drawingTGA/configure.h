@@ -33,8 +33,10 @@
 #define ERROR_PARAM_O "Problem with -o parameter. Check README file.\n"
 #define ERROR_PARAM_W "Problem with -w parameter. Check README file.\n"
 #define ERROR_PARAM_H "Problem with -h parameter. Check README file.\n"
-#define ERROR_WRONG_CONF_REC "Wrong assignment for the rectangle Check README file.\n"
+#define ERROR_WRONG_CONF_REC "Wrong assignment for the rectangle. Check README file.\n"
+#define ERROR_WRONG_CONF_CIR "Wrong assignment for the circle. Check README file.\n"
 #define ERROR_OFF_COORD_REC "Off-coordinate rectangle.\n"
+#define ERROR_OFF_COORD_CIR "Off-coordinate circle.\n"
 #define ERROR_RGBA "Bad colour values\n"
 
 #define COLOR_DEPTH 255

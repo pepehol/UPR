@@ -33,9 +33,6 @@ void TGAsetPixel(TGAImage *self, const int x, const int y, RGBA *color)
     int pixel = 0;
     pixel = TGA1d(x, y, TGAwidth(self));
 
-    // int pixel = 0;
-    // pixel = TGA1d(x, y, TGAwidth(self));
-
     float alpha = (float) color->alpha / (float) COLOR_DEPTH;
 
     float rf = alpha * (float) color->red + (1.0 - alpha) * self->rgba[pixel].red;
@@ -46,11 +43,6 @@ void TGAsetPixel(TGAImage *self, const int x, const int y, RGBA *color)
     self->rgba[pixel].green = (int) gf;
     self->rgba[pixel].red = (int) rf;
     self->rgba[pixel].alpha = color ->alpha;
-
-    // self->rgba[pixel].blue = color->blue;
-    // self->rgba[pixel].green = color->green;
-    // self->rgba[pixel].red = color->red;
-    // self->rgba[pixel].alpha = color->alpha;
 }
 
 void TGAdrawRect(TGAImage *tga, RGBA *rgba, Rectangle *rect)
