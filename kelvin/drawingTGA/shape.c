@@ -11,6 +11,16 @@ int checkStartPoint(int x, int y, int width, int height)
     return 0;
 }
 
+int checkEndPoint(int x1, int y1, int x2, int y2, int width, int height)
+{
+    if ((x2 <= x1) || (y2 <= y1) ||
+        (x2 > width) || (y2 > height)
+    )
+        return -1;
+
+    return 0;
+}
+
 void checkRectangle(Rectangle *rec, int width, int height)
 {
     // Check start point.
@@ -18,9 +28,7 @@ void checkRectangle(Rectangle *rec, int width, int height)
         callStderrExit(ERROR_OFF_COORD_REC, 1);
 
     // Check width and height.
-    if ((rec->x2 <= rec->x1) || (rec->y2 <= rec->y1) ||
-        (rec->x2 > width) || (rec->y2 > height)
-    )
+    if (checkEndPoint(rec->x1, rec->y1, rec->x2, rec->y2, width, height) == -1)
         callStderrExit(ERROR_OFF_COORD_REC, 1);
 }
 
@@ -31,9 +39,24 @@ void checkCircle(Circle *cir, int width, int height)
         callStderrExit(ERROR_OFF_COORD_CIR, 1);
 
     // Check width and height.
-    if (((cir->x + cir->radius) > width) || ((cir->x - cir->radius) < 0) ||
-        ((cir->y + cir->radius) > height) || ((cir->y - cir->radius) < 0)
-    )
+    int x2 = cir->x + cir->radius;
+    int y2 = cir->y + cir->radius;
+
+    if (checkEndPoint(cir->x, cir->y, x2, y2, width, height) == -1)
         callStderrExit(ERROR_OFF_COORD_CIR, 1);
 
+}
+
+void checkTriangle(Triangle *tria, int width, int height)
+{
+    // Check start point.
+    if (checkStartPoint(tria->x, tria->y, width, height) == -1)
+        callStderrExit(ERROR_OFF_COORD_TRIA, 1);
+
+    // Check width and height.
+    int x2 = tria->x + tria->lenSide;
+    int y2 = tria->y + tria->lenSide;
+
+    if (checkEndPoint(tria->x, tria->y, x2, y2, width, height) == -1)
+        callStderrExit(ERROR_OFF_COORD_TRIA, 1);
 }

@@ -33,16 +33,16 @@ void TGAsetPixel(TGAImage *self, const int x, const int y, RGBA *color)
     int pixel = 0;
     pixel = TGA1d(x, y, TGAwidth(self));
 
-    float alpha = (float) color->alpha / (float) COLOR_DEPTH;
+    float alpha = (float)color->alpha / (float)COLOR_DEPTH;
 
-    float rf = alpha * (float) color->red + (1.0 - alpha) * self->rgba[pixel].red;
-    float gf = alpha * (float) color->green + (1.0 - alpha) * self->rgba[pixel].green;
-    float bf = alpha * (float) color->blue + (1.0 - alpha) * self->rgba[pixel].blue;
+    float rf = alpha * (float)color->red + (1.0 - alpha) * self->rgba[pixel].red;
+    float gf = alpha * (float)color->green + (1.0 - alpha) * self->rgba[pixel].green;
+    float bf = alpha * (float)color->blue + (1.0 - alpha) * self->rgba[pixel].blue;
 
-    self->rgba[pixel].blue = (int) bf;
-    self->rgba[pixel].green = (int) gf;
-    self->rgba[pixel].red = (int) rf;
-    self->rgba[pixel].alpha = color ->alpha;
+    self->rgba[pixel].blue = (int)bf;
+    self->rgba[pixel].green = (int)gf;
+    self->rgba[pixel].red = (int)rf;
+    self->rgba[pixel].alpha = color->alpha;
 }
 
 void TGAdrawRect(TGAImage *tga, RGBA *rgba, Rectangle *rect)
@@ -52,6 +52,25 @@ void TGAdrawRect(TGAImage *tga, RGBA *rgba, Rectangle *rect)
         for (int x = rect->x1; x < rect->x2; x++)
         {
             TGAsetPixel(tga, x, y, rgba);
+        }
+    }
+}
+
+void TGAdrawCircle(TGAImage *tga, RGBA *circleRGBA, Circle *circle)
+{
+    // http://www.ltcconline.net/greenl/courses/154/factor/circle.htm
+    // d = sqrt(x^2 + y^2)
+
+    int radius = circle->radius;
+
+    for (int y = 0; y <= 2 * circle->radius; y++)
+    {
+        for (int x = 0; x <= 2 * circle->radius; x++)
+        {
+            double distance = sqrt(pow((double)(y - radius), 2) + 
+                pow((double)(x - radius), 2));
+            if (distance < radius)
+                TGAsetPixel(tga, x + circle->x, y + circle->y, circleRGBA);
         }
     }
 }
@@ -118,17 +137,3 @@ void TGAcopy(TGAImage *source, TGAImage *destination, Rectangle rect)
         }
     }
 }
-
-    // int pixel = 0;
-    // pixel = TGA1d(x, y, TGAwidth(self));
-
-    // float alpha = (float) color->alpha / (float) COLOR_DEPTH;
-
-    // float rf = alpha * (float) color->red + (1.0 - alpha) * self->rgba[pixel].red;
-    // float gf = alpha * (float) color->green + (1.0 - alpha) * self->rgba[pixel].green;
-    // float bf = alpha * (float) color->blue + (1.0 - alpha) * self->rgba[pixel].blue;
-
-    // self->rgba[pixel].blue = (int) bf;
-    // self->rgba[pixel].green = (int) gf;
-    // self->rgba[pixel].red = (int) rf;
-    // self->rgba[pixel].alpha = (int) alpha;

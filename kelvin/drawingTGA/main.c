@@ -134,7 +134,8 @@ char **readParamFromFile(char *fileName, int *param)
     {
         if (pString[i] == ASCI_NEW_LINE || pString[i] == ASCI_SPACE)
         {
-            pArray[numParams] = (char *)malloc(((i - startParams) + 1) * sizeof(char));
+            pArray[numParams] = (char *)malloc(((i - startParams) + 1) *
+                sizeof(char));
             ALLOCTEST(pArray[numParams]);
 
             char loader[(i - startParams) + 1];
@@ -172,17 +173,17 @@ int main(int argc, char *argv[])
                        &picHeight);
 
     // Check if it is a configuration from a file. (parameter -f).
-    char **pObjectsArr;
+    char **pObjects;
     int numParams = 0;
 
     if (fileConf != NULL)
     {
-        pObjectsArr = readParamFromFile(fileConf, &numParams);
+        pObjects = readParamFromFile(fileConf, &numParams);
     }
     else
     {
         numParams = argc - CONF_PARAMS;
-        pObjectsArr = &argv[CONF_PARAMS];
+        pObjects = &argv[CONF_PARAMS];
     }
 
     printf("VYSTUPNI NAZEV: %s\n", picFileOut);
@@ -195,15 +196,15 @@ int main(int argc, char *argv[])
 
     for (int i = 0; i < numParams; i++)
     {
-        printf("%s\n", pObjectsArr[i]);
+        printf("%s\n", pObjects[i]);
 
-        if (strcmp(pObjectsArr[i], PARAM_RECTANGLE) == 0)
+        if (strcmp(pObjects[i], PARAM_RECTANGLE) == 0)
         {
             int *pRec = NULL;
 
             // x  y  w  h  r  g  b  a
             //[0, 1, 2, 3, 4, 5, 6, 7]
-            pRec = transArrCharToInt(pObjectsArr[i + 1], ',', PARAM_RECTANGLE_NUM);
+            pRec = transArrCharToInt(pObjects[i + 1], ',', PARAM_RECTANGLE_NUM);
 
             if (pRec == NULL)
                 callStderrExit(ERROR_WRONG_CONF_REC, 1);
@@ -234,42 +235,61 @@ int main(int argc, char *argv[])
             free(pRec);
             pRec = NULL;
         }
-        else if (strcmp(pObjectsArr[i], PARAM_CIRCLE) == 0)
+        else if (strcmp(pObjects[i], PARAM_CIRCLE) == 0)
         {
-            int *pTria = NULL;
+            int *pCircle = NULL;
 
-            pTria = transArrCharToInt(pObjectsArr[i + 1], ',', PARAM_CIRCLE_NUM);
+            pCircle = transArrCharToInt(pObjects[i + 1], ',', PARAM_CIRCLE_NUM);
 
-            if (pTria == NULL)
+            if (pCircle == NULL)
                 callStderrExit(ERROR_WRONG_CONF_CIR, 1);
 
             Circle circle = {
-                .x = pTria[0],
-                .y = pTria[1],
-                .radius = pTria[2],
+                .x = pCircle[0],
+                .y = pCircle[1],
+                .radius = pCircle[2],
             };
 
             checkCircle(&circle, picWidth, picHeight);
 
             RGBA circleRGBA;
 
-            if (checkRGBA(pTria, PARAM_CIRCLE_NUM) == 0)
+            if (checkRGBA(pCircle, PARAM_CIRCLE_NUM) == 0)
             {
-                circleRGBA.red = pTria[3];
-                circleRGBA.green = pTria[4];
-                circleRGBA.blue = pTria[5];
-                circleRGBA.alpha = pTria[6];
+                circleRGBA.red = pCircle[3];
+                circleRGBA.green = pCircle[4];
+                circleRGBA.blue = pCircle[5];
+                circleRGBA.alpha = pCircle[6];
             }
             else
                 callStderrExit(ERROR_RGBA, 1);
 
             TGAdrawCircle(tga, &circleRGBA, &circle);
 
-            free(pTria);
-            pTria = NULL;
+            free(pCircle);
+            pCircle = NULL;
         }
-        else if (strcmp(pObjectsArr[i], PARAM_TRIANGLE) == 0)
+        else if (strcmp(pObjects[i], PARAM_TRIANGLE) == 0)
         {
+            int *pTriangle = NULL;
+
+            pTriangle = transArrCharToInt(pObjects[i + 1], ',', 
+                PARAM_TRIANGLE_NUM);
+
+            if (pTriangle == NULL)
+                callStderrExit(ERROR_WRONG_CONF_TRIA, 1);
+
+            Triangle triangle = {
+                .x = pTriangle[0],
+                .y = pTriangle[1],
+                .lenSide = pTriangle[2],
+            };
+
+            checkTriangle(&triangle, picWidth, picHeight);
+
+
+            free(pTriangle);
+            pTriangle = NULL;
         }
     }
 
@@ -280,9 +300,9 @@ int main(int argc, char *argv[])
     {
         for (int i = 0; i < numParams; i++)
         {
-            free(pObjectsArr[i]);
+            free(pObjects[i]);
         }
-        free(pObjectsArr);
+        free(pObjects);
     }
 
     TGAfree(tga);

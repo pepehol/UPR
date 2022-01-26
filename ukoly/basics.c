@@ -129,7 +129,7 @@ int main()
     //     counter++;
     // }
 
-    /* 
+    /*
     Funkci, která vrátí absolutní hodnotu parametru
 */
 
@@ -160,8 +160,8 @@ int main()
 
     /*
         Hru "guessing game"
-    Hra vygeneruje náhodné číslo. Uživatel bude opakovaně hádat číslo, program mu 
-    napíše, jestli je jeho tip moc velký nebo moc malý. Jakmile uživatel uhádne 
+    Hra vygeneruje náhodné číslo. Uživatel bude opakovaně hádat číslo, program mu
+    napíše, jestli je jeho tip moc velký nebo moc malý. Jakmile uživatel uhádne
     číslo, tak program skončí.
 */
 
@@ -184,7 +184,7 @@ int main()
     // } while (rnd != num);
 
     /*
-    Program, který načte od uživatele dvě čísla a matematický operátor 
+    Program, který načte od uživatele dvě čísla a matematický operátor
     (+, -, *, /) a vypíše výsledek zadané operace.
 */
     // int x, y;
@@ -235,8 +235,8 @@ int main()
     // printf("Prumer z %d hodu je = %f\n", maxStep, (float) (avg / maxStep));
 
     /*
-    Program, který nejprve načte od uživatele PIN (4 číslice). Poté bude 
-    opakovaně vyzývat uživatele k zadání PINu. Pokud uživatel zadá 3x 
+    Program, který nejprve načte od uživatele PIN (4 číslice). Poté bude
+    opakovaně vyzývat uživatele k zadání PINu. Pokud uživatel zadá 3x
     nesprávný PIN, vypište chybovou hlášku a ukončete program.
 */
 
