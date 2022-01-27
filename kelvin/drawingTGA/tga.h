@@ -41,7 +41,8 @@ int TGA1d(const int x, const int y, const int cols);
 void TGAsetPixel(TGAImage *self, const int x, const int y, RGBA *rgba);
 
 void TGAdrawRect(TGAImage *tga, RGBA *rgba, Rectangle *rect);
-void TGAdrawCircle(TGAImage *tga, RGBA *circleRGBA, Circle *circle);
+void TGAdrawCircle(TGAImage *tga, RGBA *rgba, Circle *circle);
+void TGAdrawTriangle(TGAImage *tga, RGBA *rgba, Triangle *tria);
 
 TGAImage *TGAnew(const int width, const int height, RGBA *rgba);
 void TGAfree(TGAImage *self);

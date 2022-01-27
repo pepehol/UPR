@@ -39,7 +39,10 @@
 #define ERROR_OFF_COORD_REC "Off-coordinate rectangle.\n"
 #define ERROR_OFF_COORD_CIR "Off-coordinate circle.\n"
 #define ERROR_OFF_COORD_TRIA "Off-coordinate triangle.\n"
-#define ERROR_RGBA "Bad colour values\n"
+#define ERROR_RGBA_REC "Wrong color format for the rectangle.\n"
+#define ERROR_RGBA_CIR "Wrong color format for the circle.\n"
+#define ERROR_RGBA_TRIA "Wrong color format for the triangle.\n"
+
 
 #define COLOR_DEPTH 255
 

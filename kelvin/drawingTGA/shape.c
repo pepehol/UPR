@@ -55,7 +55,10 @@ void checkTriangle(Triangle *tria, int width, int height)
 
     // Check width and height.
     int x2 = tria->x + tria->lenSide;
-    int y2 = tria->y + tria->lenSide;
+
+    // Necessary to calculate the height.
+    // h = (sqrt(3) * a) / 2
+    int y2 = (sqrt(3) * tria->lenSide) / 2;
 
     if (checkEndPoint(tria->x, tria->y, x2, y2, width, height) == -1)
         callStderrExit(ERROR_OFF_COORD_TRIA, 1);

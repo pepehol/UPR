@@ -56,7 +56,7 @@ void TGAdrawRect(TGAImage *tga, RGBA *rgba, Rectangle *rect)
     }
 }
 
-void TGAdrawCircle(TGAImage *tga, RGBA *circleRGBA, Circle *circle)
+void TGAdrawCircle(TGAImage *tga, RGBA *rgba, Circle *circle)
 {
     // http://www.ltcconline.net/greenl/courses/154/factor/circle.htm
     // d = sqrt(x^2 + y^2)
@@ -67,10 +67,108 @@ void TGAdrawCircle(TGAImage *tga, RGBA *circleRGBA, Circle *circle)
     {
         for (int x = 0; x <= 2 * circle->radius; x++)
         {
-            double distance = sqrt(pow((double)(y - radius), 2) + 
-                pow((double)(x - radius), 2));
-            if (distance < radius)
-                TGAsetPixel(tga, x + circle->x, y + circle->y, circleRGBA);
+            double distance = sqrt(pow((double)(y - radius), 2) +
+                                   pow((double)(x - radius), 2));
+            if (distance < radius - 0.5)
+                TGAsetPixel(tga, x + circle->x, y + circle->y, rgba);
+        }
+    }
+}
+
+void TGAdrawTriangle(TGAImage *tga, RGBA *rgba, Triangle *tria)
+{
+    // https://en.m.wikipedia.org/wiki/Bresenham%27s_line_algorithm
+    /*
+    xs,ys    x0,y0
+        |---------|
+        |    *    |
+        |   * *   |
+        |  * * *  |
+        | * * * * |
+        |* * * * *|
+        |---------|
+        x1,y1     x2,y2
+    */
+
+    int x0 = tria->x + (tria->lenSide / 2);
+    int y0 = tria->y;
+
+    int x1 = tria->x;
+    int y1 = tria->y + ((sqrt(3) * tria->lenSide) / 2);
+
+    int x2 = tria->x + tria->lenSide;
+    int y2 = tria->y + ((sqrt(3) * tria->lenSide) / 2);
+
+    TGAsetPixel(tga, x0, y0, rgba);
+    TGAsetPixel(tga, x1, y1, rgba);
+    TGAsetPixel(tga, x2, y2, rgba);
+
+    // Drawing the first half of the triangle.
+    int dx = x1 - x0;
+    int dy = y1 - y0;
+
+    int xi = 1;
+
+    if (dx < 0)
+    {
+        xi = -1;
+        dx = -dx;
+    }
+
+    int D = (2 * dx) - dy;
+
+    int x = x0;
+
+    for (int y = y0; y <= y1; y++)
+    {
+        TGAsetPixel(tga, x, y, rgba);
+
+        for (int i = 0; i <= x0 - x; i++)
+            TGAsetPixel(tga, x + i, y, rgba);
+
+        if (D > 0)
+        {
+            x = x + xi;
+            D = D + (2 * (dx - dy));
+        }
+        else
+        {
+            D = D + 2 * dx;
+        }
+    }
+
+    // Drawing the second half of the triangle.
+    dx = x2 - x0;
+    dy = y2 - y0;
+
+    xi = 1;
+
+    if (dx < 0)
+    {
+        xi = -1;
+        dx = -dx;
+    }
+
+    D = (2 * dx) - dy;
+
+    x = x0;
+
+    for (int y = y0; y <= y2; y++)
+    {
+        TGAsetPixel(tga, x, y, rgba);
+
+        // Plus one to remove the centre line.
+        for (int i = 0; i <= x - x0; i++)
+            TGAsetPixel(tga, x0 + i + 1, y, rgba);
+
+        if (D > 0)
+        {
+            x = x + xi;
+            D = D + (2 * (dx - dy));
+        }
+        else
+        {
+            D = D + 2 * dx;
         }
     }
 }

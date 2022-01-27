@@ -192,7 +192,7 @@ int main(int argc, char *argv[])
     printf("SIRKA: %d\n", picWidth);
     printf("VYSKA: %d\n", picHeight);
 
-    TGAImage *tga = TGAnew(picWidth, picHeight, &RGBA_BLACK);
+    TGAImage *tga = TGAnew(picWidth, picHeight, &RGBA_WHITE);
 
     for (int i = 0; i < numParams; i++)
     {
@@ -228,7 +228,7 @@ int main(int argc, char *argv[])
                 rectRGBA.alpha = pRec[7];
             }
             else
-                callStderrExit(ERROR_RGBA, 1);
+                callStderrExit(ERROR_RGBA_REC, 1);
 
             TGAdrawRect(tga, &rectRGBA, &rect);
 
@@ -262,7 +262,7 @@ int main(int argc, char *argv[])
                 circleRGBA.alpha = pCircle[6];
             }
             else
-                callStderrExit(ERROR_RGBA, 1);
+                callStderrExit(ERROR_RGBA_CIR, 1);
 
             TGAdrawCircle(tga, &circleRGBA, &circle);
 
@@ -287,6 +287,19 @@ int main(int argc, char *argv[])
 
             checkTriangle(&triangle, picWidth, picHeight);
 
+            RGBA triangleRGBA;
+
+            if(checkRGBA(pTriangle, PARAM_TRIANGLE_NUM) == 0)
+            {
+                triangleRGBA.red = pTriangle[3];
+                triangleRGBA.green = pTriangle[4];
+                triangleRGBA.blue = pTriangle[5];
+                triangleRGBA.alpha = pTriangle[6];
+            }
+            else
+                callStderrExit(ERROR_RGBA_TRIA, 1);
+
+            TGAdrawTriangle(tga, &triangleRGBA, &triangle);
 
             free(pTriangle);
             pTriangle = NULL;

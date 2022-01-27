@@ -2,6 +2,8 @@
 #define _SHAPE_H_
 
 #include <stdio.h>
+#include <math.h>
+
 #include "configure.h"
 #include "utils.h"
 
