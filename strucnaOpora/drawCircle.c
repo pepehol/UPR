@@ -16,7 +16,7 @@ int main()
             double distance = sqrt((double)(y - radius) * (y - radius) + (x - radius) * (x - radius));
             // printf("distance: %.2f\n", distance);
             // if (distance < radius - 0.5 && distance < radius + 0.5)
-            if (distance > radius - 0.5)
+            if (distance < radius - 0.5)
             {
                 printf("*");
             }

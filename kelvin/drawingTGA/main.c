@@ -192,7 +192,7 @@ int main(int argc, char *argv[])
     printf("SIRKA: %d\n", picWidth);
     printf("VYSKA: %d\n", picHeight);
 
-    TGAImage *tga = TGAnew(picWidth, picHeight, &RGBA_WHITE);
+    TGAImage *tga = TGAnew(picWidth, picHeight, &RGBA_BLACK);
 
     for (int i = 0; i < numParams; i++)
     {

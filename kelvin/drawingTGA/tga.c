@@ -80,13 +80,13 @@ void TGAdrawTriangle(TGAImage *tga, RGBA *rgba, Triangle *tria)
     // https://en.m.wikipedia.org/wiki/Bresenham%27s_line_algorithm
     /*
     xs,ys    x0,y0
-        |---------|
+        I----I----|
         |    *    |
         |   * *   |
         |  * * *  |
         | * * * * |
         |* * * * *|
-        |---------|
+        I---------I
         x1,y1     x2,y2
     */
 

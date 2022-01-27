@@ -44,9 +44,10 @@ void printToTerminal(char inp[])
     }
     if (strcmp(inp, "ctverec") == 0)
     {
-        for (int i = 0; i < 4; i++)
+        int side = 10;
+        for (int i = 0; i < side; i++)
         {
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < side; i++)
                 printf("x");
             printf("\n");
         }
